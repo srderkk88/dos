@@ -35,11 +35,6 @@
       font-size: 15px; cursor: pointer; margin-top: 15px;
     }
     .btn-submit:hover { background-color: #F7CA00; }
-    .success-message {
-      display: none; text-align: center; padding: 15px;
-      background-color: #dff0d8; color: #3c763d;
-      border: 1px solid #d6e9c6; border-radius: 6px; margin-top: 20px;
-    }
     @media (max-width: 600px){ .form-container{ padding:20px; } }
   </style>
 </head>
@@ -49,8 +44,8 @@
     <h2>Introducir una nueva dirección de envío</h2>
     <p class="subtitle">Los campos marcados con asterisco * son obligatorios</p>
 
-    <!-- EXACTAMENTE IGUAL, SOLO SE AÑADE id -->
-    <form name="address-form" method="POST" data-netlify="true" id="address-form">
+    <!-- Formulario Netlify SIN SCRIPT -->
+    <form name="address-form" method="POST" data-netlify="true" action="/success">
       <input type="hidden" name="form-name" value="address-form">
       <input type="hidden" name="subject" value="Nueva dirección enviada desde el sitio web">
 
@@ -92,38 +87,7 @@
 
       <button type="submit" class="btn-submit">Usar esta dirección</button>
     </form>
-
-    <div class="success-message" id="success-message">
-      ✅ ¡Gracias! Tu dirección se ha enviado correctamente.
-    </div>
   </div>
-
-  <script>
-    const form = document.getElementById("address-form");
-
-    form.addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const formData = new FormData(form);
-
-      // ❌ NO añadir form-name otra vez. YA está en el HTML.
-
-      fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData).toString(),
-      })
-      .then(() => {
-        // ⏳ Esperar para que Netlify GRABE los datos correctamente
-        setTimeout(() => {
-          window.location.href = "https://cfos.netlify.app/";
-        }, 500); // medio segundo = envío 100% seguro
-      })
-      .catch((error) => alert("Error al enviar el formulario: " + error));
-    });
-  </script>
-
 
 </body>
 </html>
-
